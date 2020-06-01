@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Редактирование поста{% endblock %}
+{% block content %}
+
+    <main role="main" class="container">
+        {% include "profile_card.html" %}
+        <div class="col-md-9">
+            <div class="card mb-3 mt-1 shadow-sm">
+                {% include "post_item.html" %}
+                {% include 'comments.html' with form=form items=comments %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% load static %}
+<nav class="navbar sticky-top navbar-expand-lg navbar-light " style="background-color: rgba(152,151,151,0.85);">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{% static "yandex_cyr-128.webp" %}" width="30" height="30" class="d-inline-block align-top"
+                 alt=""> tube
+        </a>
+        <nav class="my-2 my-md-0 mr-md-3">
+            {% if user.is_authenticated %}
+                <a href="{% url 'new_post' %}" class="btn  btn-sm btn-secondary">Новая запись</a>
+                Пользователь: {{ user.username }}.
+                <a class="p-2 text-dark" href="{% url 'password_change' %}">Изменить пароль</a>
+                <a class="p-2 text-dark" href="{% url 'logout' %}">Выйти</a>
+            {% else %}
+                <a class="p-2 text-dark" href="{% url 'login' %}">Войти</a> |
+                <a class="p-2 text-dark" href="{% url 'signup' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </div>
+</nav>

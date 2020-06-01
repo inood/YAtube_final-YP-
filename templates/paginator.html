@@ -1,0 +1,31 @@
+<ul class="pagination">
+    {% if page.has_previous %}
+        <li><a class="btn btn-sm btn-dark float-right"
+               href="?page={{ page.previous_page_number }}">&laquo;</a>
+        </li>
+    {% else %}
+        <li><a class="btn btn-sm btn-dark float-right disabled"
+               href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+        </li>
+    {% endif %}
+    {% for i in page.paginator.page_range %}
+        {% if page.number == i %}
+            <li class="btn btn-sm btn-outline-dark float-right"><span>{{ i }} <span
+                    class="sr-only">(текущая)</span></span>
+            </li>
+        {% else %}
+            <li><a class="btn btn-sm btn-dark float-right"
+                   href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    {% if page.has_next %}
+        <li><a class="btn btn-sm btn-dark float-right"
+               href="?page={{ page.next_page_number }}">&raquo;</a>
+        </li>
+    {% else %}
+        <li><a class="btn btn-sm btn-dark float-right disabled"
+               href="#">&raquo;</a>
+        </li>
+    {% endif %}
+</ul>
