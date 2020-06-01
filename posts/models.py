@@ -37,6 +37,7 @@ class Post(models.Model):
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, verbose_name='Статья',
                              on_delete=models.CASCADE,
@@ -51,6 +52,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
 
 class Follow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
