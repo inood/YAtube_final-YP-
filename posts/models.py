@@ -33,9 +33,13 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.author}: {self.text[:12]}'
 
+    def comment_count(self):
+        return self.comment_post.count()
+
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
+        ordering = ['-pub_date']
 
 
 class Comment(models.Model):
@@ -52,11 +56,14 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ['-created']
 
 
 class Follow(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="follower")
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name="following")
 
     class Meta:
         verbose_name = 'Подписка'

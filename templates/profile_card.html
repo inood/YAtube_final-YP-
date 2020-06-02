@@ -7,7 +7,7 @@
                         {{ author.get_full_name }}
                     </div>
                     <div class="h3 text-muted">
-                        @{{ author }}
+                        @{{ author.username }}
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -16,7 +16,7 @@
                             Подписчиков: {{ author.following.count }} <br/>
                             Подписан: {{ author.follower.count }}
                         </div>
-                        {% if following %}
+                        {% if is_following %}
                             <a class="btn btn-lg btn-light"
                                href="{% url 'profile_unfollow' author.username %}"
                                role="button">

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import Follow, Group, Post
+from .models import Follow, Group, Post, Comment
 
 User = get_user_model()
 
@@ -266,16 +266,47 @@ class SubscribeTest(TestCase):
 		self.assertContains(response, self.post_follow.text)
 		self.assertNotContains(response, self.post_unfollow.text)
 
+
+class CommentTest(TestCase):
+
+	def setUp(self):
+		self.text = 'First Comment'
+		self.client = Client()
+		self.user = User.objects.create_user(
+			username='testuser',
+			email='testuser@testuser.com',
+			password='qwerty'
+		)
+		self.client.force_login(self.user)
+		self.post = Post.objects.create(
+			text='Новый пост для комментариев',
+			author=self.user,
+		)
+
+	def test_auth_comment(self):
+		comment = Comment.objects.last()
+		self.assertIsNone(comment)
+		self.text = 'Первый коммент'
+		self.client.post(reverse(
+			'add_comment',
+			kwargs={
+				'username': self.user,
+				'post_id': self.post.id
+			}), {'text': self.text}
+		)
+		comment = Comment.objects.last()
+		self.assertIsNotNone(comment)
+
 	def test_non_auth_comment(self):
 		self.client.logout()
 		response = self.client.get(reverse(
 			'add_comment',
 			kwargs={
-				'username': self.followed_user,
-				'post_id': self.post_follow.id
+				'username': self.user,
+				'post_id': self.post.id
 			}
 		))
 		self.assertRedirects(
 			response,
-			f'/auth/login/?next=/{self.followed_user}/{self.post_follow.id}/comment/'
+			f'/auth/login/?next=/{self.user}/{self.post.id}/comment/'
 		)
