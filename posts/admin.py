@@ -7,7 +7,7 @@ class BaseModelAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
     def get_author(self, obj):
-        return f'{obj.author.first_name} {obj.author.last_name}'
+        return obj.author.get_full_name()
     get_author.short_description = 'Автор'
 
 
@@ -35,11 +35,11 @@ class FollowAdmin(BaseModelAdmin):
     list_filter = ('user', 'author')
 
     def get_user(self, obj):
-        return f'{obj.user.first_name} {obj.user.last_name}'
+        return obj.user.get_full_name()
     get_user.short_description = 'Пользователь'
 
     def get_author(self, obj):
-        return f'{obj.author.first_name} {obj.author.last_name}'
+        return obj.author.get_full_name()
     get_author.short_description = 'Подписан на автора'
 
 
